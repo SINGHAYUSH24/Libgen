@@ -1,0 +1,21 @@
+/* Width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #193755; /* light grey */
+}
+
+/* Thumb */
+::-webkit-scrollbar-thumb {
+  background-color: #7e1cbf; /* ERP blue */
+  border-radius: 8px;
+  border: 2px solid #f1f3f5;
+}
+
+/* Hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #8922b9;
+}

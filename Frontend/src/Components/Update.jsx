@@ -79,7 +79,7 @@ const handleSubmit = async (e) => {
     );
 
     alert("Data Updated!");
-    navigate("/");
+    navigate("/admin");
 
   } catch (err) {
     alert("Could Not Update Data: " + err.message);

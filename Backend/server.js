@@ -2,6 +2,7 @@ const express=require("express");
 const adminroute=require("./routes/resourceroutes");
 const userroute=require("./routes/searchroutes");
 const cors=require('cors');
+require('dotenv').config();
 const app=express();
 const db=require("./config/connect");
 app.use(cors());

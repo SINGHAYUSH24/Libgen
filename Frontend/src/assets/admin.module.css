@@ -13,6 +13,8 @@
   margin: 0 auto 32px;
   padding-bottom: 24px;
   border-bottom: 2px solid rgba(99, 102, 241, 0.1);
+  display:flex;
+  justify-content: center;
 }
 
 .headerContent {
@@ -137,6 +139,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  margin-bottom:8px;
 }
 
 .authorBadge {
@@ -352,5 +355,116 @@
     font-size: 1.75rem;
     bottom: 24px;
     right: 24px;
+  }
+}
+/* ===================== */
+/* Analytics / Stats Cards */
+/* ===================== */
+
+.statsGrid {
+  max-width: 900px;
+  margin: 0 auto 32px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.statCard {
+  background: rgb(38, 35, 124);
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid rgba(99, 102, 241, 0.12);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  color:#382ff3;
+}
+
+.statCard::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.15),
+    rgba(124, 58, 237, 0.1)
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.statCard:hover::after {
+  opacity: 1;
+}
+
+.statCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(99, 102, 241, 0.18);
+  border-color: rgba(99, 102, 241, 0.35);
+}
+
+.statTitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #c7d2fe;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.statValue {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #ffffff;
+  position: relative;
+  z-index: 1;
+}
+
+.statSubtext {
+  margin-top: 6px;
+  font-size: 0.8rem;
+  color: #a5b4fc;
+  position: relative;
+  z-index: 1;
+}
+
+/* Active / Selected Card */
+.statActive {
+  border-color: #7c3aed;
+  box-shadow: 0 12px 40px rgba(124, 58, 237, 0.35);
+}
+
+/* Disabled (for hard-coded cards) */
+.statDisabled {
+  cursor: default;
+  opacity: 0.75;
+}
+
+.statDisabled:hover {
+  transform: none;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.statDisabled::after {
+  display: none;
+}
+
+/* ===================== */
+/* Responsive Analytics */
+/* ===================== */
+
+@media (max-width: 900px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
   }
 }

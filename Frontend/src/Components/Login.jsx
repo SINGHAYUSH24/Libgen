@@ -1,14 +1,11 @@
 import { useState } from "react";
 import { login } from "../api/authApi";
 import styles from "../assets/Login.module.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
     const [form, setForm] = useState({ email: "", password: "" });
     const navigate = useNavigate();
-
-    const handleChange = (e) =>
-        setForm({ ...form, [e.target.name]: e.target.value });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -17,7 +14,7 @@ const Login = () => {
         if (data.token) {
             localStorage.setItem("token", data.token);
             localStorage.setItem("user", JSON.stringify(data.user));
-            navigate(data.user.role === "admin" ? "/admin" : "/");
+            navigate("/");
         } else {
             alert(data.message);
         }
@@ -25,16 +22,24 @@ const Login = () => {
 
     return (
         <div className={styles.container}>
-            <form className={styles.form} onSubmit={handleSubmit}>
-                <h2>Login</h2>
-                <input name="email" placeholder="Email" onChange={handleChange} />
+            <form className={styles.card} onSubmit={handleSubmit}>
+                <h2>Welcome Back 👋</h2>
+                <p>Login to explore library resources</p>
+
+                <input
+                    placeholder="Email"
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                />
                 <input
                     type="password"
-                    name="password"
                     placeholder="Password"
-                    onChange={handleChange}
+                    onChange={(e) => setForm({ ...form, password: e.target.value })}
                 />
+
                 <button>Login</button>
+                <span>
+                    Don’t have an account? <Link to="/signup">Signup</Link>
+                </span>
             </form>
         </div>
     );

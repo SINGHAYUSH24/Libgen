@@ -1,14 +1,17 @@
 import { useState } from "react";
 import { signup } from "../api/authApi";
 import styles from "../assets/Signup.module.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
-    const [form, setForm] = useState({ name: "", email: "", password: "" });
-    const navigate = useNavigate();
+    const [form, setForm] = useState({
+        name: "",
+        email: "",
+        password: "",
+        role: "user",
+    });
 
-    const handleChange = (e) =>
-        setForm({ ...form, [e.target.name]: e.target.value });
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -25,17 +28,41 @@ const Signup = () => {
 
     return (
         <div className={styles.container}>
-            <form className={styles.form} onSubmit={handleSubmit}>
-                <h2>Signup</h2>
-                <input name="name" placeholder="Name" onChange={handleChange} />
-                <input name="email" placeholder="Email" onChange={handleChange} />
+            <form className={styles.card} onSubmit={handleSubmit}>
+                <h2>Create Account 🚀</h2>
+                <p>Join the smart library search platform</p>
+
+                <input
+                    placeholder="Name"
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                />
+
+                <input
+                    placeholder="Email"
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                />
+
                 <input
                     type="password"
-                    name="password"
                     placeholder="Password"
-                    onChange={handleChange}
+                    onChange={(e) => setForm({ ...form, password: e.target.value })}
                 />
-                <button>Signup</button>
+
+                {/* ROLE SELECT */}
+                <select
+                    className={styles.select}
+                    value={form.role}
+                    onChange={(e) => setForm({ ...form, role: e.target.value })}
+                >
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                </select>
+
+                <button>Sign Up →</button>
+
+                <span>
+                    Already have an account? <Link to="/login">Login</Link>
+                </span>
             </form>
         </div>
     );

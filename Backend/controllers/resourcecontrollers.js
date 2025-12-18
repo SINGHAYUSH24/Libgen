@@ -29,7 +29,7 @@ const uploadResource = async (req, res) => {
 };
 const getAllResources = async (req, res) => {
   try {
-    const resources = await Resource.find().sort({ createdAt: -1 });
+    const resources = await Resource.find().sort({ createdAt: -1 }).limit(5);
     res.json(resources);
   } catch (err) {
     res.status(500).json({ error: err.message });

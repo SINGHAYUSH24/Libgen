@@ -1,9 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const upload = require("../config/multer");
-const {uploadResource,getAllResources,updateResource,deleteResource} = require("../controllers/resourcecontrollers");
+const {uploadResource,getAllResources,updateResource,deleteResource,getAdminStats} = require("../controllers/resourcecontrollers");
+const {insert,get}=require("../controllers/logcontrollers");
 router.post("/upload",upload.single("pdf"),uploadResource);
+router.post("/log",insert);
 router.get("/view",getAllResources);
+router.get("/stats",getAdminStats);
 router.put("/update/:id",upload.single("pdf"),updateResource);
 router.delete("/:id",deleteResource);
+router.get("/get",get);
 module.exports = router;

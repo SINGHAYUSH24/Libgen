@@ -29,7 +29,7 @@ const uploadResource = async (req, res) => {
 };
 const getAllResources = async (req, res) => {
   try {
-    const resources = await Resource.find().sort({ createdAt: -1 });
+    const resources = await Resource.find().sort({ createdAt: -1 }).limit(5);
     res.json(resources);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -93,10 +93,25 @@ const deleteResource = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+const getAdminStats = async (req, res) => {
+  try {
+    const totalResources = await Resource.countDocuments();
+    const availableResources = await Resource.countDocuments({
+      availability: { $gt: 0 }
+    });
 
+    res.json({
+      totalResources,
+      availableResources
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Failed to fetch stats" });
+  }
+};
 module.exports = {
   uploadResource,
   getAllResources,
   updateResource,
-  deleteResource
+  deleteResource,
+  getAdminStats
 };

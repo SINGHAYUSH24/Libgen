@@ -1,6 +1,8 @@
 import {useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import styles from "../assets/Create.module.css";
 function Create(){
     const [data,setData]=useState({
@@ -40,17 +42,26 @@ function Create(){
         formData.append("pdf",data.pdf);
         try{
             await axios.post("http://localhost:2000/admin/upload",
-                formData
-            );
-            alert("Data Uploaded!");
-            navigate("/admin");
+                formData);
+            toast.success("Data Updated");
+            const formdata={
+              type:"Create",
+              name:data.title
+            }
+            axios.post("http://localhost:2000/admin/log",formdata)
+            .then(res=>toast.success(res.data))
+            .catch(()=>toast.error("Action could not be added to Log History"));
+            setTimeout(() => {
+              navigate("/admin");
+            }, 3500);
         }catch(err){
-            alert(err.message);
+            toast.error("Error: "+err.message);
             return;
         }
     }
     return(
-        <div className={styles.container}>
+    <div className={styles.container}>
+      <ToastContainer position="top-right" autoClose={3000} theme="colored" style={{ zIndex: 999999 }} />
   <div className={styles.header}>Resource Upload</div>
 
   <form className={styles.erpForm} onSubmit={handleSubmit}>

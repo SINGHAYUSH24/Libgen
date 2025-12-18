@@ -3,6 +3,7 @@ import Update from "../src/Components/Update";
 import Create from "./Components/Create";
 import Search from "./Components/Search";
 import Admin from "./Components/admin";
+import Log from "./Components/log";
 function App() {
   return (
     <BrowserRouter>
@@ -11,6 +12,7 @@ function App() {
         <Route path="/admin" element={<Admin />} />
         <Route path="/update" element={<Update />} />
         <Route path="/upload" element={<Create />} />
+        <Route path="/log" element={<Log/>} />
       </Routes>
     </BrowserRouter>
   );

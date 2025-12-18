@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import styles from "../assets/Update.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function Update() {
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -75,18 +77,25 @@ const handleSubmit = async (e) => {
   try {
     await axios.put(
       `http://localhost:2000/admin/update/${data._id}`,
-      formData,
-    );
-
-    alert("Data Updated!");
-    navigate("/admin");
-
+      formData);
+      toast.success("Data Updated");
+      const formdata={
+        type:"Update",
+        name:item.title
+      }
+       axios.post("http://localhost:2000/admin/log",formdata)
+        .then(res=>toast.success(res.data))
+        .catch(()=>toast.error("Action could not be added to Log History"));
+      setTimeout(() => {
+        navigate("/admin");
+      }, 3500);
   } catch (err) {
-    alert("Could Not Update Data: " + err.message);
+    toast.error("Error"+err.message);
   }
 };
   return (
     <div className={styles.container}>
+      <ToastContainer position="top-right" autoClose={3000} theme="colored" style={{ zIndex: 999999 }} />
       <form className={styles.formBox} onSubmit={handleSubmit}>
         <div className={styles.formGroup}>
           <label className={styles.label}>Title</label>

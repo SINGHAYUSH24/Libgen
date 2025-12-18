@@ -1,0 +1,87 @@
+.container {
+  min-height: 100vh;
+  min-width: 80%;
+  padding: 32px;
+  background: #f4f6f9;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.header {
+  margin-bottom: 24px;
+}
+
+.header h1 {
+  font-size: 1.6rem;
+  color: #1f2a40;
+}
+
+.header p {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  color: #666;
+}
+.head{
+    color:rgb(137, 132, 132);
+    font-family:'Times New Roman', Times, serif;
+    font-size: xx-large;
+}
+
+.logList {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+.logList ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.logItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.logItem:last-child {
+  border-bottom: none;
+}
+
+.logType {
+  min-width: 90px;
+  text-align: center;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  background: #1f2a40;
+  color: #fff;
+}
+
+.logContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.logName {
+  font-size: 0.95rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.logTime {
+  font-size: 0.75rem;
+  color: #777;
+}
+
+.empty {
+  padding: 40px;
+  text-align: center;
+  color: #888;
+}

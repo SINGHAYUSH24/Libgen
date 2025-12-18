@@ -1,10 +1,10 @@
-const {connect}=require("mongoose");
-const db_connect=async ()=>{
-    try{
-        await connect(process.env.MONGO_DB);
+const { connect } = require("mongoose");
+const db_connect = async () => {
+    try {
+        await connect(process.env.MONGO_URI);
         console.log("Database Connected");
-    }catch(error){
+    } catch (error) {
         console.log(error);
     }
-}
-module.exports=db_connect;
+};
+module.exports = db_connect;

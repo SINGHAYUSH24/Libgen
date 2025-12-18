@@ -1,0 +1,78 @@
+.nav {
+  height: 70px;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  backdrop-filter: blur(12px);
+  background: rgba(10, 15, 30, 0.6);
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  gap: 8px;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.links a {
+  color: #cbd5f5;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.login {
+  opacity: 0.8;
+}
+
+.signup {
+  padding: 8px 18px;
+  background: linear-gradient(90deg, #22d3ee, #6366f1);
+  color: black;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.userBox {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.userBox span {
+  font-size: 14px;
+}
+
+.userBox small {
+  font-size: 11px;
+  color: #22d3ee;
+}
+
+button {
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.adminBtn {
+  padding: 8px 16px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  background: linear-gradient(90deg, #facc15, #f97316);
+  color: black;
+  box-shadow: 0 0 20px rgba(250, 204, 21, 0.4);
+  transition: transform 0.2s ease;
+}
+
+.adminBtn:hover {
+  transform: translateY(-2px);
+}

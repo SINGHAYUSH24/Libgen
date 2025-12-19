@@ -6,17 +6,13 @@ const cors = require("cors");
 const adminroute = require("./routes/resourceroutes");
 const userroute = require("./routes/searchroutes");
 const authRoute = require("./routes/authRoutes");
-
 const app = express();
 dotenv.config();
 db_connect();
-
 app.use(cors());
 app.use(express.json());
-app.use(express.json());
-
+app.use(express.urlencoded({extended:true}));
 app.use("/auth", authRoute);
-
 app.use("/admin", adminroute);
 app.use("/user", userroute);
 app.use("/uploads", express.static("uploads"));

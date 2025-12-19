@@ -15,33 +15,22 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                {/* Public Routes */}
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
-
-                {/* Protected User Routes */}
                 <Route
-                    path="/"
-                    element={
+                    path="/" element={
                         <ProtectedRoute>
                             <Home />
                         </ProtectedRoute>
                     }
                 />
-
-                <Route
-                    path="/user"
-                    element={
+                <Route path="/user" element={
                         <ProtectedRoute>
                             <Search />
                         </ProtectedRoute>
                     }
                 />
-
-                {/* Admin Routes */}
-                <Route
-                    path="/admin"
-                    element={
+                <Route path="/admin" element={
                         <AdminRoute>
                             <Admin />
                         </AdminRoute>

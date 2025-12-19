@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { signup } from "../api/authApi";
 import styles from "../assets/Signup.module.css";
 import { Link, useNavigate } from "react-router-dom";
@@ -12,11 +12,15 @@ const Signup = () => {
     });
 
     const navigate = useNavigate();
-
+    useEffect(()=>{
+          if(localStorage.getItem("token")){
+            navigate("/");
+          }
+        },[]);
     const handleSubmit = async (e) => {
         e.preventDefault();
         const data = await signup(form);
-
+        alert(data.token);
         if (data.token) {
             localStorage.setItem("token", data.token);
             localStorage.setItem("user", JSON.stringify(data.user));
@@ -33,16 +37,19 @@ const Signup = () => {
                 <p>Join the smart library search platform</p>
 
                 <input
+                name="name"
                     placeholder="Name"
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
                 />
 
                 <input
+                name="email"
                     placeholder="Email"
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
                 />
 
                 <input
+                name="password"
                     type="password"
                     placeholder="Password"
                     onChange={(e) => setForm({ ...form, password: e.target.value })}

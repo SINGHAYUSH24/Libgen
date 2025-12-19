@@ -1,23 +1,21 @@
 const API_URL = "http://localhost:2000/auth";
-
+import axios from "axios";
 export const signup = async (formData) => {
-    const res = await fetch(`${API_URL}/signup`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+    const res=await fetch(`${API_URL}/signup`,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(formData),
     });
     return res.json();
 };
-
 export const login = async (formData) => {
-    const res = await fetch(`${API_URL}/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-    });
-    return res.json();
+  try{
+    const res=await axios.post(`${API_URL}/login`,formData);
+    return res.data;
+  }catch(err){
+    alert(err.message);
+  }
 };
-
 export const setAuth = (data) => {
   localStorage.setItem("token", data.token);
   localStorage.setItem("user", JSON.stringify(data.user));

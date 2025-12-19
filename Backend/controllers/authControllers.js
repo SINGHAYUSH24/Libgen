@@ -19,8 +19,6 @@ exports.signup = async (req, res) => {
             return res.status(409).json({ message: "User already exists" });
 
         let finalRole = "user";
-
-        // 🔐 Admin creation check
         if (role === "admin") {
             if (adminSecret !== process.env.ADMIN_SECRET) {
                 return res.status(403).json({ message: "Invalid admin secret" });
@@ -52,6 +50,7 @@ exports.signup = async (req, res) => {
             message: "Signup failed",
             error: error.message,
         });
+        console.log(error);
     }
 };
 
@@ -63,13 +62,13 @@ exports.login = async (req, res) => {
             return res.status(400).json({ message: "All fields are required" });
 
         const user = await User.findOne({ email });
-        if (!user) return res.status(401).json({ message: "Invalid credentials" });
+        if (!user) return res.status(403).json({ message: "Invalid credentials" });
 
         const isMatch = await user.comparePassword(password);
         if (!isMatch)
-            return res.status(401).json({ message: "Invalid credentials" });
+            return res.status(400).json({ message: "Invalid credentials" });
 
-        const token = generateToken(user._id);
+        const token = generateToken(user);
 
         res.status(200).json({
             success: true,
@@ -82,7 +81,7 @@ exports.login = async (req, res) => {
             },
         });
     } catch (error) {
-        res.status(500).json({ message: "Login failed", error: error.message });
+        res.status(500).json({message:error.message});
     }
 };
 

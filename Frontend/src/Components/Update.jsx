@@ -12,9 +12,9 @@ function Update() {
   const [data, setData] = useState({
     _id:"",
     title: "",
-    authors: [],
+    authors: "",
     category: "",
-    keywords: [],
+    keywords: "",
     publication_year: "",
     availability: "",
     pdf: null
@@ -28,9 +28,9 @@ function Update() {
     setData({
       _id:item._id || "",  
       title: item.title || "",
-      authors: item.authors || [],
+      authors: item.authors.join(",")|| "",
       category: item.category || "",
-      keywords: item.keywords || [],
+      keywords: item.keywords.join(",")|| "",
       publication_year: item.publication_year || "",
       availability: item.availability || "",
       pdf: null
@@ -44,31 +44,20 @@ function Update() {
       setData(prev => ({ ...prev, pdf: files[0] }));
       return;
     }
-
-    if (name === "authors" || name === "keywords") {
-      setData(prev => ({
-        ...prev,
-        [name]: value
-          .split(",")
-          .map(v => v.trim())
-          .filter(Boolean)
-      }));
-      return;
-    }
-
     setData(prev => ({ ...prev, [name]: value }));
   };
 const handleSubmit = async (e) => {
   e.preventDefault();
 
   const formData = new FormData();
-
+  const authorsArray = data.authors.split(",").map(a => a.trim()).filter(Boolean);
+  const keywordsArray = data.keywords.split(",").map(k => k.trim()).filter(Boolean);
   formData.append("title", data.title);
   formData.append("category", data.category);
   formData.append("publication_year", data.publication_year);
   formData.append("availability", data.availability);
-  formData.append("authors", data.authors.join(","));
-  formData.append("keywords", data.keywords.join(","));
+  formData.append("authors", authorsArray.join(","));
+  formData.append("keywords", keywordsArray.join(","));
 
   if (data.pdf) {
     formData.append("pdf", data.pdf);
@@ -78,7 +67,7 @@ const handleSubmit = async (e) => {
     await axios.put(
       `http://localhost:2000/admin/update/${data._id}`,
       formData);
-      toast.success("Data Updated");
+    toast.success("Data Updated");
       const formdata={
         type:"Update",
         name:item.title
@@ -114,7 +103,7 @@ const handleSubmit = async (e) => {
             type="text"
             name="authors"
             className={styles.input}
-            value={data.authors.join(", ")}
+            value={data.authors}
             onChange={handleChange}
           />
           <span className={styles.hint}>
@@ -139,7 +128,7 @@ const handleSubmit = async (e) => {
             type="text"
             name="keywords"
             className={styles.input}
-            value={data.keywords.join(", ")}
+            value={data.keywords}
             onChange={handleChange}
           />
           <span className={styles.hint}>

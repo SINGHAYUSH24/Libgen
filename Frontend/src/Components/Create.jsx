@@ -4,6 +4,7 @@ import {useNavigate} from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styles from "../assets/Create.module.css";
+import back from "../assets/backbutton.png"
 function Create(){
     const [data,setData]=useState({
         title:"",
@@ -62,8 +63,14 @@ function Create(){
     return(
     <div className={styles.container}>
       <ToastContainer position="top-right" autoClose={3000} theme="colored" style={{ zIndex: 999999 }} />
-  <div className={styles.header}>Resource Upload</div>
-
+  <div className={styles.header}>
+    <div>
+    <button onClick={()=>{
+      navigate("/admin");
+    }}><img src={back} style={{width:"30px"}}></img></button>
+    </div>
+    <div className="flex-1">Resource Upload</div>
+  </div>
   <form className={styles.erpForm} onSubmit={handleSubmit}>
     <div className={styles.row}>
       <label>Title :</label>

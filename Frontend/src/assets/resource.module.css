@@ -3,13 +3,13 @@
   min-height: 100vh;
   padding: 0;
   font-family: "Segoe UI", Roboto, Arial, sans-serif;
-  min-width:80%;
+  min-width:85%;
 }
 .header{
   min-height:20vh;
-  background: url("C:\Users\Sanjay singh\Documents\3RD YEAR\WebDev\Libgen\Frontend\public\lib.jpg");
   background-repeat: no-repeat;
   padding:50px;
+  background:url("LIBRARY2.jpg");
 
 }
 /* Hero section with search */

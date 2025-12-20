@@ -1,13 +1,16 @@
 .nav {
-  height: 70px;
+  height: 10%;
   padding: 0 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   backdrop-filter: blur(12px);
-  background: rgba(10, 15, 30, 0.6);
+  background:#206298;
+  color: #fff;
 }
-
+.nav:hover{
+  color:black;
+}
 .logo {
   font-size: 20px;
   font-weight: 700;
@@ -22,9 +25,12 @@
 }
 
 .links a {
-  color: #cbd5f5;
+  color: #FF6B35;
   text-decoration: none;
   font-weight: 500;
+}
+.links a:hover{
+  color:black;
 }
 
 .login {
@@ -43,6 +49,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  color:#f7f7f7;
 }
 
 .userBox span {
@@ -51,7 +58,7 @@
 
 .userBox small {
   font-size: 11px;
-  color: #22d3ee;
+  color: #0b316d;
 }
 
 button {
@@ -75,3 +82,26 @@ button {
 .adminBtn:hover {
   transform: translateY(-2px);
 }
+.profile {
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ff6b35;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.name {
+  font-size: 0.95rem;
+}
+

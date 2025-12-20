@@ -62,11 +62,11 @@ exports.login = async (req, res) => {
             return res.status(400).json({ message: "All fields are required" });
 
         const user = await User.findOne({ email });
-        if (!user) return res.status(403).json({ message: "Invalid credentials" });
+        if (!user) return res.status(401).json({ message: "Invalid credentials" });
 
         const isMatch = await user.comparePassword(password);
         if (!isMatch)
-            return res.status(400).json({ message: "Invalid credentials" });
+            return res.status(401).json({ message: "Invalid credentials" });
 
         const token = generateToken(user);
 

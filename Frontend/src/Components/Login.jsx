@@ -77,12 +77,6 @@ const Login = () => {
                   <label className="text-sm font-medium text-gray-300">
                     Password
                   </label>
-                  <Link
-                    to="/faculty-login"
-                    className="text-sm text-indigo-400 hover:text-indigo-300"
-                  >
-                    Admin
-                  </Link>
                 </div>
 
                 <input
@@ -110,7 +104,7 @@ const Login = () => {
                   to="/signup"
                   className="text-indigo-400 hover:text-indigo-300 font-medium"
                 >
-                  SignUp
+                  Signup
                 </Link>
               </p>
             </div>

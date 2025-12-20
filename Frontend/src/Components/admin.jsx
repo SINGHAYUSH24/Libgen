@@ -5,8 +5,11 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styles from "../assets/admin.module.css";
 import Log from "../Components/log";
-import logout from "../assets/logout.png";
+import logoutimage from "../assets/logout.png";
 import Resource from "../Components/resource"
+import {logout} from "../utils/auth";
+import { getUser } from "../utils/auth";
+import Navbar from "./Navbar";
 function Dashboard({
   viewMode,
   setViewMode,
@@ -14,15 +17,13 @@ function Dashboard({
   displayedResources,
   handleDelete,
   handleUpdate,
-  handleAdd
+  handleAdd,
+  view
 }) {
   return (
     <main className={styles.main}>
       <header className={styles.topbar}>
         <h1>Dashboard</h1>
-        <div className={styles.topRight}>
-          <img src={logout} style={{ width: "30px", cursor: "pointer" }} />
-        </div>
       </header>
 
       <section className={styles.statsGrid}>
@@ -42,9 +43,10 @@ function Dashboard({
           <strong>{stats.availableResources}</strong>
         </div>
 
-        <div className={styles.statCard}>
+        <div className={`${styles.statCard} ${viewMode === "users" ? styles.active : ""}`}
+          onClick={() => setViewMode("users")}>
           <span>Total Users</span>
-          <strong>128</strong>
+          <strong>{stats.totalUsers}</strong>
         </div>
 
         <div className={styles.statCard}>
@@ -52,20 +54,31 @@ function Dashboard({
           <strong>OS</strong>
         </div>
       </section>
-      <div style={{textAlign:"center"}}><h2>RECENT ADDITIONS</h2></div>
+      <h1><strong>Resources</strong></h1><br></br>
       <section className={styles.content}>
-        {displayedResources.length === 0 ? (
+      {viewMode==="users"?
+      displayedResources.map(item => (
+            <div key={item._id} className={styles.resourceCard}>
+              <div className={styles.cardTop}>
+                <h3><strong>{item.name}</strong></h3>
+              </div>
+              <div className={styles.role}>
+                  <span><strong>{item.role.toUpperCase()}</strong></span>
+              </div>
+              <span><strong>Created on: </strong>{new Date(item.createdAt).toLocaleDateString()}</span>
+            </div>
+          )):null}
+      {displayedResources.length === 0&&viewMode!=="users" ? (
           <div className={styles.empty}>No resources found</div>
-        ) : (
+        ) :viewMode!=="users"?(
           displayedResources.map(item => (
             <div key={item._id} className={styles.resourceCard}>
               <div className={styles.cardTop}>
-                <h3>{item.title}</h3>
+                <h3 className={styles.hyper} onClick={()=>{view(item)}}><strong>{item.title}</strong></h3>
                 <span>{item.publication_year}</span>
               </div>
-
               <div className={styles.authors}>
-                {item.authors.map((a, i) => (
+                {Array.isArray(item.authors) &&item.authors.map((a, i) => (
                   <span key={i}>{a}</span>
                 ))}
               </div>
@@ -86,9 +99,8 @@ function Dashboard({
               </div>
             </div>
           ))
-        )}
+        ):null}
       </section>
-
       <button type="button" className={styles.fab} onClick={handleAdd}>+</button>
     </main>
   );
@@ -99,24 +111,31 @@ function Admin() {
     totalResources: 0,
     availableResources: 0
   });
+  const [count,setCount]=useState([]);
   const [viewMode, setViewMode] = useState("all");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [type, setType] = useState("dashboard");
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    setIsLoading(true);
-    Promise.all([
+  const user=getUser();
+  const fetchAdminData = async () => {
+  try {
+    const [resourcesRes, statsRes,userRes] = await Promise.all([
       axios.get("http://localhost:2000/admin/view"),
-      axios.get("http://localhost:2000/admin/stats")
-    ])
-      .then(([resourcesRes, statsRes]) => {
-        setResources(resourcesRes.data || []);
-        setStats(statsRes.data);
-      })
-      .catch(() => toast.error("Failed to load admin data"))
-      .finally(() => setIsLoading(false));
+      axios.get("http://localhost:2000/admin/stats"),
+      axios.get("http://localhost:2000/admin/users")
+    ]);
+    setResources(resourcesRes.data || []);
+    setStats(statsRes.data);
+    setCount(userRes.data);
+  } catch {
+    toast.error("Failed to load admin data");
+  } finally {
+    setIsLoading(false);
+  }
+};
+  useEffect(() => {
+    fetchAdminData();
   }, []);
 
   const handleDelete = (item) => {
@@ -128,6 +147,7 @@ function Admin() {
       .then(() => {
         toast.success("Resource deleted");
         setResources(prev => prev.filter(r => r._id !== item._id));
+        fetchAdminData();
         axios.post("http://localhost:2000/admin/log",formdata)
         .then(res=>toast.success(res.data))
         .catch(()=>toast.error("Action could not be added to Log History"));
@@ -142,11 +162,15 @@ function Admin() {
   const handleAdd = () => {
     navigate("/upload");
   };
-
+  const view=(item)=>{
+    navigate("/resource",{
+      state:{item}
+    })
+  }
   const displayedResources =
     viewMode === "available"
       ? resources.filter(r => r.availability > 0)
-      : resources;
+      : viewMode==="all"?resources:count;
 
   if (isLoading) {
     return <div className={styles.loading}>Loading...</div>;
@@ -155,13 +179,9 @@ function Admin() {
   return (
     <div className={styles.layout}>
       <ToastContainer position="top-right" autoClose={3000} theme="colored" style={{ zIndex: 999999 }} />
-
+      <Navbar/>
+      <div className={styles.body}>
       <aside className={styles.sidebar}>
-        <div className={styles.profile}>
-          <div className={styles.avatar}>JD</div>
-          <span className={styles.name}>Admin</span>
-        </div>
-
         <nav className={styles.nav}>
           <span className={type === "dashboard" ? styles.navItemActive : styles.navItem} onClick={() => setType("dashboard")}>Dashboard</span>
           <span className={type === "resource" ? styles.navItemActive : styles.navItem} onClick={() => setType("resource")}>Resources</span>
@@ -178,9 +198,14 @@ function Admin() {
           handleDelete={handleDelete}
           handleUpdate={handleUpdate}
           handleAdd={handleAdd}
+          navigate={navigate}
+          count={count}
+          setCount={setCount}
+          view={view}
         />
       ):type==="log"?(<Log />):type==="resource"?(<Resource/>):null
     }
+    </div>
     </div>
   );
 }

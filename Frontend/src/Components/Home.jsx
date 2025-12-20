@@ -9,8 +9,6 @@ const Home = () => {
         <>
             <Navbar />
             <section className={styles.hero}>
-                <span className={styles.badge}>✨ Discover Knowledge Instantly</span>
-
                 <h1>
                     Smart Library <br />
                     <span>Resource Search</span>

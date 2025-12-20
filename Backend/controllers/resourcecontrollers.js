@@ -1,4 +1,5 @@
 const Resource = require("../model/resource");
+const User=require("../model/User");
 const fs = require("fs");
 
 const uploadResource = async (req, res) => {
@@ -99,13 +100,22 @@ const getAdminStats = async (req, res) => {
     const availableResources = await Resource.countDocuments({
       availability: { $gt: 0 }
     });
-
+    const totalUsers=await User.countDocuments();
     res.json({
       totalResources,
-      availableResources
+      availableResources,
+      totalUsers
     });
   } catch (err) {
     res.status(500).json({ message: "Failed to fetch stats" });
+  }
+};
+const getAllUsers = async (req, res) => {
+  try {
+    const resources = await User.find().sort({ createdAt: -1 });
+    res.json(resources);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
 module.exports = {
@@ -113,5 +123,6 @@ module.exports = {
   getAllResources,
   updateResource,
   deleteResource,
-  getAdminStats
+  getAdminStats,
+  getAllUsers
 };

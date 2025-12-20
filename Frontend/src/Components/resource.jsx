@@ -7,8 +7,6 @@ function Search() {
   const [resources, setResources] = useState([]);
   const [query, setQuery] = useState("");
   const [type, setType] = useState("keywords");
-
-  // Initial load → fetch all resources
   useEffect(() => {
     fetchAll();
   }, []);
@@ -25,8 +23,6 @@ function Search() {
   const handleSearch = (e) => {
     const value = e.target.value.toLowerCase();
     setQuery(value);
-
-    // Empty input → show all
     if (!value.trim()) {
       fetchAll();
       return;

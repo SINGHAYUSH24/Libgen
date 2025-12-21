@@ -17,6 +17,7 @@ function App() {
             <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
+                {/* Protected User Routes */}
                 <Route
                     path="/" element={
                         <ProtectedRoute>
@@ -25,7 +26,9 @@ function App() {
                     }
                 />
 
-                <Route path="/user" element={
+                <Route
+                    path="/user"
+                    element={
                         <ProtectedRoute>
                             <Search />
                         </ProtectedRoute>

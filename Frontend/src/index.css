@@ -4,3 +4,19 @@
     width: 0; /* Optional: also set width/height to 0 */
     height: 0;
   }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --border: 220 14% 90%;
+}
+
+.dark {
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --border: 220 14% 30%;
+}

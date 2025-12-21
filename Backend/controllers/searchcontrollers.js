@@ -3,26 +3,25 @@ const User=require("../model/User");
 const searchResources = async (req, res) => {
   try {
     const { q, type } = req.query;
+
+    // If no query → return all resources
     if (!q) {
-        try {
-            const resources = await Resource.find().sort({ createdAt: -1 });
-            res.json(resources);
-            return;
-        } catch (err) {
-            return res.status(500).json({ error: err.message });
-        }
+      const resources = await Resource.find().sort({ createdAt: -1 });
+      return res.json(resources);
     }
 
     let query = {};
+
     switch (type) {
-      case "keywords":
-      default:
+      case "title":
         query = {
-          $or: [
-            { title: { $regex: q, $options: "i" } },
-            { keywords: { $regex: q, $options: "i" } },
-            { authors: { $regex: q, $options: "i" } }
-          ]
+          title: { $regex: q, $options: "i" }
+        };
+        break;
+
+      case "keywords":
+        query = {
+          keywords: { $regex: q, $options: "i" }
         };
         break;
 
@@ -56,9 +55,14 @@ const searchResources = async (req, res) => {
           return res.status(400).json({ message: "Invalid availability filter" });
         }
         break;
+
+      default:
+        query = {};
     }
 
-    const results = await Resource.find(query).sort({ publication_year: -1 });
+    const results = await Resource
+      .find(query)
+      .sort({ publication_year: -1 });
 
     res.status(200).json(results);
 

@@ -25,19 +25,19 @@ function App() {
                     }
                 />
 
-                <Route path="/user" element={
+                <Route
+                    path="/user"
+                    element={
                         <ProtectedRoute>
                             <Search />
                         </ProtectedRoute>
                     }
                 />
-                <Route path="/resource" element={
-                        <ProtectedRoute>
-                            <ResourceView />
-                        </ProtectedRoute>
-                    }
-                />
-                <Route path="/admin" element={
+
+                {/* Admin Routes */}
+                <Route
+                    path="/admin"
+                    element={
                         <AdminRoute>
                             <Admin />
                         </AdminRoute>

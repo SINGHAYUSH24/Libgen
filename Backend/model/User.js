@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-
+const resources=require("../model/resource");
 const userSchema = new mongoose.Schema(
     {
         name: {
@@ -27,6 +27,12 @@ const userSchema = new mongoose.Schema(
             enum: ["user", "admin"],
             default: "user",
         },
+        bookmarks:[
+            {
+                type:mongoose.Schema.Types.ObjectId,
+                ref:"resources"
+            }
+        ]
     },
     { timestamps: true },
 );

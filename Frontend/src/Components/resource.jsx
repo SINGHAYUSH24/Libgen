@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "../assets/resource.module.css";
 import searchpng from "../assets/search.png";
-
-function Search() {
+import{useNavigate,useLocation} from "react-router-dom";
+function Search({view}) {
   const [resources, setResources] = useState([]);
   const [query, setQuery] = useState("");
   const [type, setType] = useState("keywords");
@@ -19,7 +19,6 @@ function Search() {
       .then(res => setResources(res.data))
       .catch(err => console.error(err));
   };
-
   const handleSearch = (e) => {
     const value = e.target.value.toLowerCase();
     setQuery(value);
@@ -73,7 +72,7 @@ function Search() {
 
         {resources.map(item => (
           <div key={item._id} className={styles.card}>
-            <h3 className={styles.title}>{item.title}</h3>
+            <h3 className={styles.title} onClick={()=>view(item)}>{item.title}</h3>
 
             <p>
               <span className={styles.label}>Authors:</span>{" "}

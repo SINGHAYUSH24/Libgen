@@ -10,17 +10,18 @@ const Navbar = () => {
         logout();
         navigate("/login");
     };
-
+    const handleProfile=()=>{
+        navigate("/profile");
+    }
     return (
         <nav className={styles.nav}>
-            <div className={styles.profile}>
+            <div className={styles.profile} onClick={handleProfile}>
                   <div className={styles.avatar}>{user.name.split(" ").map(item=>(item[0])).join("")}</div>
                   <span className={styles.name}>{user.name}</span>
             </div>
             <div className={styles.links}>
                 <Link to="/">Home</Link>
                 <Link to="/user">Search</Link>
-                <Link to="/resource">Resource</Link>
                 {user.role==="admin"?<Link to="/admin">Dashboard</Link>:null}
                 {!user ? (
                     <>

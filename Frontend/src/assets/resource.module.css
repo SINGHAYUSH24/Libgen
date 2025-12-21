@@ -171,7 +171,11 @@
   line-height: 1.4;
   transition: color 0.3s ease;
 }
-
+.title:hover{
+  cursor:pointer;
+  text-decoration: underline;
+  color:rgb(9, 9, 81);
+}
 .card:hover .title {
   color: #b45309;
 }

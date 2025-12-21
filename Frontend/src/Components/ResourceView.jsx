@@ -1,20 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import SearchBar from '../Components/SearchBar';
 import ActionButton from '../Components/ActionButton';
 import PDFViewer from '../Components/PDFViewer';
 import MetadataTab from '../Components/MetadataTab';
 import Navbar from './Navbar';
 import {useLocation } from 'react-router-dom';
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const Index = () => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const {state}=useLocation();
   const item=state?.item;
-  const handleDownload = () => {
-    console.log('Downloading PDF...');
+  useEffect(() => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (user?.bookmarks?.includes(item._id)) {
+    setIsBookmarked(true);
+  }
+}, [item]);
+  const handleDownload = async() => {
+    try{
+      const res=await axios.get(`http://localhost:2000/admin/download/${item._id}`,
+        {
+          responseType:"blob"
+        });
+      const url=window.URL.createObjectURL(res.data);
+      const a=document.createElement("a");
+      a.href=url;
+      a.download=`${item.title}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    }catch(error){
+      toast.error(error.message);
+    }
   };
 
-  const handleBookmark = () => {
-    setIsBookmarked(!isBookmarked);
+  const handleBookmark = async() => {
+    try{
+    const token=localStorage.getItem("token");
+    const res= await axios.post(`http://localhost:2000/user/bookmark/${item._id}`,{},
+      {headers:{
+        Authorization:`Bearer ${token}`
+      }}
+    );
+    const {bookmarked}=res.data;
+    console.log(item?._id);
+    console.log(token);
+    setIsBookmarked(bookmarked);
+    toast.success(isBookmarked?"Bookmark Removed":"Added to Bookmarks");
+    }catch(error){
+      toast.error(error.message);
+    }
   };
 
   const DownloadIcon = (
@@ -31,6 +69,7 @@ const Index = () => {
  
   return (
     <div className="min-h-screen h-screen flex flex-col bg-background">
+      <ToastContainer position="top-right" autoClose={3000} theme="colored" style={{ zIndex: 999999 }} />
       <Navbar/>
       <header className="w-full px-4 py-4 bg-card border-b border-border shadow-sm">
         <div className="w-[80%] mx-auto flex gap-4">

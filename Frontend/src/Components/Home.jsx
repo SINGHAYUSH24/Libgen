@@ -20,8 +20,8 @@ const Home = () => {
                 </p>
 
                 <div className={styles.actions}>
-                    <button onClick={() => navigate("/user")}>Start Searching →</button>
-                    <button className={styles.secondary}>Learn More</button>
+                    <button onClick={() => navigate("/user")} className={styles.actionsbutton}>Search</button>
+                    <button onClick={()=>navigate("/contact")} className={styles.guide}>Contact US</button>
                 </div>
             </section>
         </>

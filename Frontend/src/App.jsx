@@ -17,7 +17,6 @@ function App() {
             <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
-                {/* Protected User Routes */}
                 <Route
                     path="/" element={
                         <ProtectedRoute>
@@ -34,13 +33,11 @@ function App() {
                         </ProtectedRoute>
                     }
                 />
-                <Route path="/resource" element={
-                        <ProtectedRoute>
-                            <ResourceView />
-                        </ProtectedRoute>
-                    }
-                />
-                <Route path="/admin" element={
+
+                {/* Admin Routes */}
+                <Route
+                    path="/admin"
+                    element={
                         <AdminRoute>
                             <Admin />
                         </AdminRoute>

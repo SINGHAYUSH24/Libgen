@@ -14,8 +14,7 @@ import {
   BookX,
 } from "lucide-react";
 import styles from "../assets/Search.module.css";
-
-// Filter options
+import {useNavigate,useLocation} from "react-router-dom";
 const filters = [
   { value: "keywords", label: "Keywords", icon: "🔑" },
   { value: "title", label: "Title", icon: "📖" },
@@ -30,8 +29,7 @@ const Search = () => {
   const [type, setType] = useState("keywords");
   const [loading, setLoading] = useState(false);
   const [initialLoad, setInitialLoad] = useState(true);
-
-// Simulated API call - replace with actual axios call to your backend
+  const navigate=useNavigate();
 const fetchResources = useCallback(async (searchQuery, searchType) => {
   try {
     setLoading(true);
@@ -70,6 +68,12 @@ const fetchResources = useCallback(async (searchQuery, searchType) => {
 
     return () => clearTimeout(timer);
   }, [query, type, fetchResources]);
+  const view=(resource)=>{
+    navigate("/resource",{
+      state:{
+      item:resource}
+    })
+  }
 
   return (
     <>      <Navbar />
@@ -238,7 +242,7 @@ const fetchResources = useCallback(async (searchQuery, searchType) => {
                         <BookOpen className={styles.bookIcon} />
                       </div>
                       <div>
-                        <h3 className={styles.cardTitle}>{resource.title}</h3>
+                        <h3 className={styles.cardTitle} onClick={()=>{view(resource)}} style={{cursor:"pointer"}}>{resource.title}</h3>
                       </div>
                     </div>
                     <span

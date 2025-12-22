@@ -20,7 +20,18 @@ function Dashboard({
   handleUpdate,
   handleAdd,
   view
-}) {
+})
+{
+  const [downloadedResources, setDownloadedResources] = useState([]);
+  const handleViewDownloads = async () => {
+  try {
+    const res = await axios.get("http://localhost:2000/admin/downloads/all");
+    setDownloadedResources(res.data);
+    setViewMode("download");
+  } catch (err) {
+    toast.error("Failed to load downloads");
+  }
+};
   return (
     <main className={styles.main}>
       <header className={styles.topbar}>
@@ -56,11 +67,11 @@ function Dashboard({
           <strong>{stats.totalUsers}</strong>
         </div>
 
-        <div className={styles.statCard}>
+        <div className={`${styles.statCard} ${viewMode === "download" ? styles.active : ""}`}
+          onClick={handleViewDownloads}>
           <span>Downloads
             <svg style={{margin:"auto"}}  height="64px" width="64px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <polygon style={{fill:"#CEE8FA"}} points="256,227.71 128.876,114.549 128.876,250.148 256,354.835 383.123,250.148 383.123,114.549 "></polygon> <g> <path style={{fill:"#2D527C"}} d="M389.246,100.905c-5.38-2.411-11.666-1.442-16.067,2.474l-40.652,36.186V14.956 C332.526,6.697,325.829,0,317.57,0H194.43c-8.259,0-14.956,6.697-14.956,14.956v124.609l-40.652-36.186 c-4.403-3.917-10.695-4.888-16.067-2.474c-5.375,2.411-8.833,7.755-8.833,13.646v135.597c0,4.469,1.998,8.703,5.449,11.546 l127.123,104.687c2.762,2.275,6.137,3.41,9.508,3.41c3.371,0,6.747-1.137,9.508-3.41L392.63,261.694 c3.45-2.842,5.449-7.076,5.449-11.546V114.551C398.079,108.658,394.621,103.316,389.246,100.905z M209.386,29.912h93.228v136.28 L256,207.687l-46.614-41.494V29.912z M368.167,243.088L256,335.461l-112.167-92.372v-95.2l102.222,90.995 c5.67,5.045,14.22,5.045,19.89,0l102.222-90.995v95.2H368.167z"></path> <path style={{fill:"#2D527C"}} d="M454.169,512H57.831c-8.259,0-14.956-6.697-14.956-14.956V347.482 c0-8.259,6.697-14.956,14.956-14.956h71.045c8.259,0,14.956,6.697,14.956,14.956s-6.697,14.956-14.956,14.956H72.787v119.649 h366.426V362.438h-56.089c-8.259,0-14.956-6.697-14.956-14.956s6.697-14.956,14.956-14.956h71.045 c8.259,0,14.956,6.697,14.956,14.956v149.562C469.125,505.303,462.428,512,454.169,512z"></path> <path style={{fill:"#2D527C"}} d="M383.124,429.741H128.876c-8.259,0-14.956-6.697-14.956-14.956s6.697-14.956,14.956-14.956h254.249 c8.259,0,14.956,6.697,14.956,14.956S391.385,429.741,383.124,429.741z"></path> </g> </g></svg>
           </span>
-          <strong>120</strong>
         </div>
       </section>
       <h1><strong>Resources</strong></h1><br></br>
@@ -79,7 +90,7 @@ function Dashboard({
           )):null}
       {displayedResources.length === 0&&viewMode!=="users" ? (
           <div className={styles.empty}>No resources found</div>
-        ) :viewMode!=="users"?(
+        ) :viewMode=="all"||viewMode=="available"?(
           displayedResources.map(item => (
             <div key={item._id} className={styles.resourceCard}>
               <div className={styles.cardTop}>
@@ -108,7 +119,26 @@ function Dashboard({
               </div>
             </div>
           ))
-        ):null}
+        ):viewMode === "download" && downloadedResources.length > 0 ? (
+  downloadedResources.map((book) => (
+    <div key={book._id} className={styles.resourceCard}>
+      <div className={styles.cardTop}>
+        <h3><strong>{book.title}</strong></h3>
+        <span>{book.publication_year}</span>
+      </div>
+      <div className={styles.authors}>
+        {Array.isArray(book.authors) && book.authors.map((a, i) => (
+          <span key={i}>{a}</span>
+        ))}
+      </div>
+      <div className={styles.actions}>
+        <span><strong>Downloads: </strong>{book.downloadCount}</span>
+      </div>
+    </div>
+  ))
+) : viewMode === "download" ? (
+  <div className={styles.empty}>No downloads found</div>
+) : null}
       </section>
       <button type="button" className={styles.fab} onClick={handleAdd}>+</button>
     </main>
@@ -132,7 +162,7 @@ function Admin() {
     const [resourcesRes, statsRes,userRes] = await Promise.all([
       axios.get("http://localhost:2000/admin/view"),
       axios.get("http://localhost:2000/admin/stats"),
-      axios.get("http://localhost:2000/admin/users")
+      axios.get("http://localhost:2000/admin/users"),
     ]);
     setResources(resourcesRes.data || []);
     setStats(statsRes.data);

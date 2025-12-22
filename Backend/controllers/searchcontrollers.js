@@ -3,8 +3,6 @@ const User=require("../model/User");
 const searchResources = async (req, res) => {
   try {
     const { q, type } = req.query;
-
-    // If no query → return all resources
     if (!q) {
       const resources = await Resource.find().sort({ createdAt: -1 });
       return res.json(resources);

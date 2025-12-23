@@ -5,7 +5,7 @@ const PDFViewer = ({ pdfUrl }) => {
     <div className="flex-1 w-full h-full bg-card rounded-lg shadow-lg overflow-hidden border border-border">
       {pdfUrl ? (
         <iframe
-          src={`http://localhost:2000/${pdfUrl}#zoom=80&toolbar=0&navpanes=0`}
+          src={`${import.meta.env.VITE_API_URL}/${pdfUrl}#zoom=80&toolbar=0&navpanes=0`}
           className="w-full h-full"
           title="PDF Viewer"
         />

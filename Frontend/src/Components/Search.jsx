@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import styles from "../assets/Search.module.css";
 import {useNavigate,useLocation} from "react-router-dom";
+import api from "../api/axios";
 const filters = [
   { value: "keywords", label: "Keywords", icon: "🔑" },
   { value: "title", label: "Title", icon: "📖" },

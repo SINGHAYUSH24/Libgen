@@ -15,6 +15,8 @@ import Contact from "./Components/Contact";
 import AdminChat from "./Components/AdminChat";
 
 function App() {
+    console.log("API URL:", import.meta.env.VITE_API_URL);
+
     return (
         <BrowserRouter>
             <Routes>

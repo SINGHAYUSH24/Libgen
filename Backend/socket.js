@@ -3,7 +3,11 @@ const Chat = require("./model/Chat");
 
 const initSocket = (server) => {
   const io = new Server(server, {
-    cors: { origin: "*" },
+    cors: {
+      origin: "https://libgen-dthraho7c-ayushs-projects-23bac148.vercel.app",
+      credentials: true,
+      methods: ["GET", "POST"],
+    },
   });
 
   io.on("connection", (socket) => {

@@ -8,6 +8,7 @@ import {useLocation } from 'react-router-dom';
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import api from '../api/axios';
 const Index = () => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const {state}=useLocation();
@@ -20,7 +21,7 @@ const Index = () => {
 }, [item]);
   const handleDownload = async() => {
     try{
-      const res=await axios.get(`http://localhost:2000/admin/download/${item._id}`,
+      const res=await api.get(`/admin/download/${item._id}`,
         {
           responseType:"blob"
         });
@@ -40,7 +41,7 @@ const Index = () => {
   const handleBookmark = async() => {
     try{
     const token=localStorage.getItem("token");
-    const res= await axios.post(`http://localhost:2000/user/bookmark/${item._id}`,{},
+    const res= await api.post(`/user/bookmark/${item._id}`,{},
       {headers:{
         Authorization:`Bearer ${token}`
       }}

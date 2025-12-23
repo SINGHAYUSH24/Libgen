@@ -34,7 +34,7 @@ const fetchResources = useCallback(async (searchQuery, searchType) => {
   try {
     setLoading(true);
 
-    const res = await axios.get("http://localhost:2000/user/search", {
+    const res = await api.get("/user/search", {
       params: {
         q: searchQuery?.trim() || "",
         type: searchType

@@ -11,6 +11,7 @@ import {logout} from "../utils/auth";
 import { getUser } from "../utils/auth";
 import Navbar from "./Navbar";
 import AdminChat from "./AdminChat";
+import api from "../api/axios";
 function Dashboard({
   viewMode,
   setViewMode,
@@ -25,7 +26,7 @@ function Dashboard({
   const [downloadedResources, setDownloadedResources] = useState([]);
   const handleViewDownloads = async () => {
   try {
-    const res = await axios.get("http://localhost:2000/admin/downloads/all");
+    const res = await api.get("/admin/downloads/all");
     setDownloadedResources(res.data);
     setViewMode("download");
   } catch (err) {
@@ -160,9 +161,9 @@ function Admin() {
   const fetchAdminData = async () => {
   try {
     const [resourcesRes, statsRes,userRes] = await Promise.all([
-      axios.get("http://localhost:2000/admin/view"),
-      axios.get("http://localhost:2000/admin/stats"),
-      axios.get("http://localhost:2000/admin/users"),
+      api.get("/admin/view"),
+      api.get("/admin/stats"),
+      api.get("/admin/users"),
     ]);
     setResources(resourcesRes.data || []);
     setStats(statsRes.data);
@@ -182,12 +183,12 @@ function Admin() {
       type:"Delete",
       name:item.title
     }
-    axios.delete(`http://localhost:2000/admin/${item._id}`)
+    api.delete(`admin/${item._id}`)
       .then(() => {
         toast.success("Resource deleted");
         setResources(prev => prev.filter(r => r._id !== item._id));
         fetchAdminData();
-        axios.post("http://localhost:2000/admin/log",formdata)
+        api.post("/admin/log",formdata)
         .then(res=>toast.success(res.data))
         .catch(()=>toast.error("Action could not be added to Log History"));
       })

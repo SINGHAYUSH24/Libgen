@@ -3,6 +3,7 @@ import axios from "axios";
 import styles from "../assets/resource.module.css";
 import searchpng from "../assets/search.png";
 import{useNavigate,useLocation} from "react-router-dom";
+import api from "../api/axios";
 function Search({view}) {
   const [resources, setResources] = useState([]);
   const [query, setQuery] = useState("");
@@ -12,8 +13,8 @@ function Search({view}) {
   }, []);
 
   const fetchAll = () => {
-    axios
-      .get("http://localhost:2000/user/search", {
+    api
+      .get("/user/search", {
         params: { q: "", type }
       })
       .then(res => setResources(res.data))
@@ -26,8 +27,8 @@ function Search({view}) {
       fetchAll();
       return;
     }
-    axios
-      .get("http://localhost:2000/user/search", {
+    api
+      .get("/user/search", {
         params: { q: value, type }
       })
       .then(res => setResources(res.data))

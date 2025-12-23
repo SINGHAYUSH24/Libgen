@@ -4,12 +4,13 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styles from "../assets/log.module.css";
 import {useNavigate} from "react-router-dom";
+import api from "../api/axios";
 function Log() {
   const [data, setData] = useState([]);
   const navigate=useNavigate();
   useEffect(() => {
-    axios
-      .get("http://localhost:2000/admin/get")
+    api
+      .get("/admin/get")
       .then(res => setData(res.data))
       .catch(err => toast.error("Failed to load logs"));
   }, []);

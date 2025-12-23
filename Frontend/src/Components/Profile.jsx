@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import api from "../api/axios";
 const Profile = () => {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
@@ -23,7 +24,7 @@ const Profile = () => {
         const form={
             pass:newPassword
         }
-        const res=await axios.put(`http://localhost:2000/user/change/${user.id}`,form);
+        const res=await api.put(`/user/change/${user.id}`,form);
         toast.success(res.data.message);
     }catch(error){
         toast.error(error.message);
@@ -41,7 +42,7 @@ const Profile = () => {
             name:data.name,
             email:data.email
         }
-        const res=await axios.put(`http://localhost:2000/user/update/${user.id}`,formdata);
+        const res=await api.put(`/user/update/${user.id}`,formdata);
         toast.success(res.data.message);
         const updatedUser = {
             ...res.data.data,

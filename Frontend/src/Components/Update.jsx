@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import api from "../api/axios";
 function Update() {
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -64,15 +65,15 @@ const handleSubmit = async (e) => {
   }
 
   try {
-    await axios.put(
-      `http://localhost:2000/admin/update/${data._id}`,
+    await api.put(
+      `/admin/update/${data._id}`,
       formData);
     toast.success("Data Updated");
       const formdata={
         type:"Update",
         name:item.title
       }
-       axios.post("http://localhost:2000/admin/log",formdata)
+       api.post("/admin/log",formdata)
         .then(res=>toast.success(res.data))
         .catch(()=>toast.error("Action could not be added to Log History"));
       setTimeout(() => {

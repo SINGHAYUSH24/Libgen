@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styles from "../assets/Create.module.css";
 import back from "../assets/backbutton.png"
+import api from "../api/axios";
 function Create(){
     const [data,setData]=useState({
         title:"",
@@ -42,14 +43,14 @@ function Create(){
         formData.append("availability",data.availability);
         formData.append("pdf",data.pdf);
         try{
-            await axios.post("http://localhost:2000/admin/upload",
+            await api.post("/admin/upload",
                 formData);
             toast.success("Data Updated");
             const formdata={
               type:"Create",
               name:data.title
             }
-            axios.post("http://localhost:2000/admin/log",formdata)
+            api.post("/admin/log",formdata)
             .then(res=>toast.success(res.data))
             .catch(()=>toast.error("Action could not be added to Log History"));
             setTimeout(() => {

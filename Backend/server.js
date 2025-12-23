@@ -15,7 +15,7 @@ dotenv.config();
 const app = express();
 db_connect();
 const corsOptions = {
-  origin: "https://libgen-dthraho7c-ayushs-projects-23bac148.vercel.app",
+  origin: /\.vercel\.app$/,
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],

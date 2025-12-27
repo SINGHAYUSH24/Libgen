@@ -224,7 +224,7 @@ const fetchResources = useCallback(async (searchQuery, searchType) => {
                         <BookOpen className={styles.bookIcon} />
                       </div>
                       <div>
-                        <h3 className={styles.cardTitle} onClick={resource.availability===0?()=>{view(resource)}:()=>{}} style={{cursor:"pointer"}}>{resource.title}</h3>
+                        <h3 className={styles.cardTitle} onClick={resource.availability!==0?()=>{view(resource)}:()=>{}} style={{cursor:"pointer"}}>{resource.title}</h3>
                       </div>
                     </div>
                     <span

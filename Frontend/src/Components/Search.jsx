@@ -52,16 +52,11 @@ const fetchResources = useCallback(async (searchQuery, searchType) => {
   }
 }, []);
 
-  
 
-  
-
-  // Initial fetch
   useEffect(() => {
     fetchResources("", type);
   }, []);
 
-  // Debounced search
   useEffect(() => {
     const timer = setTimeout(() => {
       fetchResources(query, type);
@@ -79,7 +74,6 @@ const fetchResources = useCallback(async (searchQuery, searchType) => {
   return (
     <>      <Navbar />
     <div className={styles.page}>
-      {/* ===== HERO SECTION ===== */}
       <section className={styles.heroSection}>
         <div className={styles.heroBackground} />
         <div className={styles.heroDecorative}>
@@ -88,15 +82,12 @@ const fetchResources = useCallback(async (searchQuery, searchType) => {
         </div>
 
         <div className={styles.heroContainer}>
-          {/* Header */}
           <div className={styles.heroHeader}>
             <h1 className={styles.heroTitle}>Discover Knowledge</h1>
             <p className={styles.heroSubtitle}>
               Search through our extensive collection of books, journals, and academic resources
             </p>
           </div>
-
-          {/* Search Box */}
           <div className={styles.searchWrapper}>
             <div className={styles.searchBox}>
               <div className={styles.searchInner}>
@@ -120,8 +111,6 @@ const fetchResources = useCallback(async (searchQuery, searchType) => {
               </div>
             </div>
           </div>
-
-          {/* Filters */}
           <div className={styles.filtersWrapper}>
             <div className={styles.filtersContainer}>
               {filters.map((filter) => (
@@ -138,8 +127,6 @@ const fetchResources = useCallback(async (searchQuery, searchType) => {
               ))}
             </div>
           </div>
-
-          {/* Result count */}
           <div className={styles.resultCount}>
             <p className={styles.resultText}>
               {loading ? (
@@ -154,8 +141,6 @@ const fetchResources = useCallback(async (searchQuery, searchType) => {
           </div>
         </div>
       </section>
-
-      {/* ===== RESULTS SECTION ===== */}
       <section className={styles.resultsSection}>
         <div className={styles.sectionHeader}>
           <Library className={styles.libraryIcon} />
@@ -163,8 +148,6 @@ const fetchResources = useCallback(async (searchQuery, searchType) => {
             {query ? "Search Results" : "All Resources"}
           </h2>
         </div>
-
-        {/* Loading Skeleton */}
         {initialLoad || (loading && resources.length === 0) ? (
           <div className={styles.skeletonGrid}>
             {[...Array(6)].map((_, i) => (
@@ -192,7 +175,6 @@ const fetchResources = useCallback(async (searchQuery, searchType) => {
             ))}
           </div>
         ) : resources.length === 0 ? (
-          /* Empty State */
           <div className={styles.emptyContainer}>
             <div className={styles.emptyIconWrapper}>
               {query ? (
@@ -225,7 +207,6 @@ const fetchResources = useCallback(async (searchQuery, searchType) => {
             )}
           </div>
         ) : (
-          /* Results Grid */
           <div className={styles.resultsGrid}>
             {resources.map((resource, index) => {
               const isAvailable = resource.availability > 0;
@@ -243,7 +224,7 @@ const fetchResources = useCallback(async (searchQuery, searchType) => {
                         <BookOpen className={styles.bookIcon} />
                       </div>
                       <div>
-                        <h3 className={styles.cardTitle} onClick={()=>{view(resource)}} style={{cursor:"pointer"}}>{resource.title}</h3>
+                        <h3 className={styles.cardTitle} onClick={resource.availability===0?()=>{view(resource)}:()=>{}} style={{cursor:"pointer"}}>{resource.title}</h3>
                       </div>
                     </div>
                     <span
@@ -310,8 +291,6 @@ const fetchResources = useCallback(async (searchQuery, searchType) => {
           </div>
         )}
       </section>
-
-      {/* ===== FOOTER ===== */}
       <footer className={styles.footer}>
         <div className={styles.footerContent}>
           <p className={styles.footerText}>
